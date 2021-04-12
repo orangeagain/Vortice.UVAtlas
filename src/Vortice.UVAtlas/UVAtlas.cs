@@ -3,15 +3,18 @@
 
 using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Vortice.UVAtlas
 {
     public static class UVAtlas
     {
+        
+
         public static Result Create(
-            Vector3[] positions, int verticesCount,
-            ushort[] indices, int facesCount,
+            Span<Vector3> positions,
+            Span<uint> indices,
             uint[] adjacency,
             int maxChartNumber = 0, float maxStretch = 0.16667f, float gutter = 2.0f,
             int width = 512, int height = 512,
@@ -24,13 +27,13 @@ namespace Vortice.UVAtlas
             {
                 fixed (Vector3* positionsPtr = &positions[0])
                 {
-                    fixed (ushort* indicesPtr = &indices[0])
+                    fixed (uint* indicesPtr = &indices[0])
                     {
                         fixed (uint* adjacencyPtr = &adjacency[0])
                         {
-                            UVAtlasResult* uv_result = UVAtlasCreate(
-                                positionsPtr, verticesCount,
-                                indicesPtr, false, facesCount,
+                            Native.UVAtlasResult* uv_result = UVAtlasCreate(
+                                positionsPtr, positions.Length,
+                                indicesPtr, indices.Length / 3,
                                 maxChartNumber, maxStretch,
                                 width, height, gutter,
                                 adjacencyPtr,
@@ -47,6 +50,17 @@ namespace Vortice.UVAtlas
 
                             result.VerticesCount = uv_result->VerticesCount;
                             result.Vertices = new Vertex[uv_result->VerticesCount];
+                            result.IndicesCount = uv_result->IndicesCount;
+                            result.Indices = new uint[uv_result->IndicesCount];
+                            result.FacePartitioning = new uint[uv_result->VerticesCount];
+                            result.VertexRemapArray = new uint[uv_result->VerticesCount];
+                            result.Stretch = uv_result->Stretch;
+                            result.Charts = uv_result->Charts;
+                            Write(result.Vertices, uv_result->Vertices, uv_result->VerticesCount);
+                            Write(result.Indices, uv_result->Indices, uv_result->IndicesCount);
+                            Write(result.FacePartitioning, uv_result->FacePartitioning, uv_result->VerticesCount);
+                            Write(result.VertexRemapArray, uv_result->VertexRemapArray, uv_result->VerticesCount);
+                            Native.uvatlas_delete(uv_result);
                         }
                     }
                 }
@@ -55,21 +69,19 @@ namespace Vortice.UVAtlas
             return result;
         }
 
-        [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        public unsafe readonly struct UVAtlasResult
+        public static unsafe void Write<T>(T[] destination, void* data, uint count) where T : unmanaged
         {
-            public readonly uint VerticesCount;
-            public readonly Vertex* Vertices;
-            public readonly uint IndicesCount;
-            public readonly byte* Indices;
-            public readonly float Stretch;
-            public readonly nint Charts;
+            fixed (void* destinationPtr = destination)
+            {
+                Unsafe.CopyBlockUnaligned(destinationPtr, data, (uint)(count * sizeof(T)));
+            }
         }
 
-        [DllImport("UVAtlas.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "uvatlas_create")]
-        private unsafe static extern UVAtlasResult* UVAtlasCreate(
+
+        [DllImport("UVAtlas.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "uvatlas_create_uint32")]
+        private unsafe static extern Native.UVAtlasResult* UVAtlasCreate(
             Vector3* positions, nint nVerts,
-            void* indices, bool is32Bit, nint nFaces,
+            uint* indices, nint nFaces,
             nint maxChartNumber, float maxStretch,
             nint width, nint height,
             float gutter,
@@ -100,6 +112,11 @@ namespace Vortice.UVAtlas
             Position = position;
             TexCoord = texCoord;
         }
+
+        public override string ToString()
+        {
+            return $"{nameof(Position)}: {Position}, {nameof(TexCoord)}: {TexCoord}";
+        }
     }
 
     public struct Result
@@ -109,7 +126,9 @@ namespace Vortice.UVAtlas
         public uint VerticesCount;
         public Vertex[] Vertices;
         public uint IndicesCount;
-        public ushort[] Indices;
+        public uint[] Indices;
+        public uint[] FacePartitioning;
+        public uint[] VertexRemapArray;
         public float Stretch;
         public nint Charts;
 
