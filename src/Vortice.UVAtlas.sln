@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.UVAtlas.Tests", "src\Vortice.UVAtlas.Tests\Vortice.UVAtlas.Tests.csproj", "{758898A3-4666-42D0-83D4-F028938A22A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.UVAtlas.Tests", "Vortice.UVAtlas.Tests\Vortice.UVAtlas.Tests.csproj", "{758898A3-4666-42D0-83D4-F028938A22A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.UVAtlas", "src\Vortice.UVAtlas\Vortice.UVAtlas.csproj", "{641E32FF-57F2-4B6C-9782-05C862E66957}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.UVAtlas", "Vortice.UVAtlas\Vortice.UVAtlas.csproj", "{641E32FF-57F2-4B6C-9782-05C862E66957}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

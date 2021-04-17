@@ -47,16 +47,18 @@ namespace Vortice.UVAtlas
 
         public static readonly uvatlas_delete_t uvatlas_delete;
 
+        [StructLayout(LayoutKind.Sequential)]
         public unsafe readonly struct UVAtlasResult
         {
+            public readonly int Result;
             public readonly uint VerticesCount;
-            public readonly Vertex* Vertices;
             public readonly uint IndicesCount;
+            public readonly Vertex* Vertices;
             public readonly uint* Indices;
             public readonly uint* FacePartitioning;
             public readonly uint* VertexRemapArray;
             public readonly float Stretch;
-            public readonly nint Charts;
+            public readonly uint Charts;
         }
         #endregion
 

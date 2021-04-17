@@ -40,11 +40,11 @@ namespace Vortice.UVAtlas
                                 null,
                                 null,
                                 callbackFrequency,
-                                options, out int returnCode);
+                                options);
 
-                            if (returnCode < 0)
+                            if (uv_result->Result < 0)
                             {
-                                result.ResultCode = returnCode;
+                                result.ResultCode = uv_result->Result;
                                 return result;
                             }
 
@@ -88,8 +88,7 @@ namespace Vortice.UVAtlas
             uint* adjacency, uint* falseEdgeAdjacency,
             float* pIMTArray,
             float callbackFrequency,
-            Options options,
-            out int returnCode);
+            Options options);
     }
 
     [Flags]
@@ -130,8 +129,7 @@ namespace Vortice.UVAtlas
         public uint[] FacePartitioning;
         public uint[] VertexRemapArray;
         public float Stretch;
-        public nint Charts;
-
+        public uint Charts;
 
         public bool IsFailure => ResultCode < 0;
     }
