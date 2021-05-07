@@ -10,11 +10,9 @@ namespace Vortice.UVAtlas
 {
     public static class UVAtlas
     {
-        
-
         public static Result Create(
-            Span<Vector3> positions,
-            Span<uint> indices,
+            Vector3[] positions,
+            uint[] indices,
             uint[] adjacency,
             int maxChartNumber = 0, float maxStretch = 0.16667f, float gutter = 2.0f,
             int width = 512, int height = 512,

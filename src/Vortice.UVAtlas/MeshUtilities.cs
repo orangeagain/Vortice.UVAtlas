@@ -8,9 +8,9 @@ namespace Vortice.UVAtlas
 {
     public static class MeshUtilities
     {
-        public static unsafe uint[] GenerateAdjacencyAndPointReps(
-            Span<ushort> indices,
-            Span<Vector3> positions,
+        public static unsafe uint[]? GenerateAdjacencyAndPointReps(
+            ushort[] indices,
+            Vector3[] positions,
             float epsilon = 0.0f)
         {
             fixed (ushort* indicesPtr = indices)
@@ -38,9 +38,9 @@ namespace Vortice.UVAtlas
             }
         }
 
-        public static unsafe uint[] GenerateAdjacencyAndPointReps(
-            Span<ushort> indices,
-            Span<Vector3> positions,
+        public static unsafe uint[]? GenerateAdjacencyAndPointReps(
+            ushort[] indices,
+            Vector3[] positions,
             out uint[] pointRep,
             float epsilon = 0.0f)
         {
@@ -72,9 +72,9 @@ namespace Vortice.UVAtlas
             }
         }
 
-        public static unsafe uint[] GenerateAdjacencyAndPointReps(
-            Span<uint> indices,
-            Span<Vector3> positions,
+        public static unsafe uint[]? GenerateAdjacencyAndPointReps(
+            uint[] indices,
+            Vector3[] positions,
             float epsilon = 0.0f)
         {
             fixed (uint* indicesPtr = indices)
@@ -102,9 +102,9 @@ namespace Vortice.UVAtlas
             }
         }
 
-        public static unsafe uint[] GenerateAdjacencyAndPointReps(
-            Span<uint> indices,
-            Span<Vector3> positions,
+        public static unsafe uint[]? GenerateAdjacencyAndPointReps(
+            uint[] indices,
+            Vector3[] positions,
             out uint[] pointRep,
             float epsilon = 0.0f)
         {
