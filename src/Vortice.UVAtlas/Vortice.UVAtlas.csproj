@@ -9,21 +9,18 @@
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
   </ItemGroup>
 
-	<ItemGroup>
-		<Content Include="$(MSBuildThisFileDirectory)native\win-x64\UVAtlas.dll">
-			<PackagePath>runtimes\win-x64\native</PackagePath>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-		<Content Include="$(MSBuildThisFileDirectory)native\win-x86\UVAtlas.dll">
-			<PackagePath>runtimes\win-x86\native</PackagePath>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
+  <ItemGroup>
+    <Compile Remove="build\**" />
+    <EmbeddedResource Remove="build\**" />
+    <None Remove="build\**" />
+  </ItemGroup>
 
-		<Content Include="build\netstandard2.0\Vortice.UVAtlas.targets">
-			<PackagePath>build/netstandard2.0/Vortice.UVAtlas.targets</PackagePath>
-			<Pack>true</Pack>
-		</Content>
+	<ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)native\win-x64\UVAtlas.dll" Link="\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)native\UVAtlasLib_x64.dll" Link="\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
 
 </Project>
